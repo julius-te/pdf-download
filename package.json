@@ -1,0 +1,21 @@
+{
+  "name": "pdf-download",
+  "version": "0.0.1",
+  "description": "Browser extension that lets you download embedded PDF files.",
+  "scripts": {
+    "build": "tsc",
+    "clean": "find dist -name '*.js' -type f -delete && find dist -type d -empty -delete"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julius-te/pdf-download.git"
+  },
+  "bugs": {
+    "url": "https://github.com/julius-te/pdf-download/issues"
+  },
+  "homepage": "https://github.com/julius-te/pdf-download#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "typescript": "^5.2.2"
+  }
+}
