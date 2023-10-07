@@ -3,7 +3,6 @@
     "target": "es2016",
     "module": "None",
     "rootDir": "./src",
-    "outDir": "./dist",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "typeRoots": ["./node_modules/@types"],
