@@ -1,6 +1,4 @@
-const contentElement = document.querySelector(
-  "#content"
-) as HTMLParagraphElement;
+const list = document.querySelector("#pdfs") as HTMLUListElement;
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   if (tabs.length >= 1) {
@@ -10,16 +8,26 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         type: "get-urls",
         tabId: tabId,
       });
-    }
-  }
-});
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "update-urls") {
-    if (message.urls.length === 0) {
-      contentElement.textContent = "No PDFs found";
-    } else {
-      contentElement.innerHTML = message.urls.join("<br/>");
+      chrome.runtime.onMessage.addListener((message) => {
+        if (
+          message.type === "update-urls" &&
+          message.tabId === tabId &&
+          message.urls.length > 0
+        ) {
+          list.innerHTML = "";
+          message.urls.forEach((url: string) => {
+            const filename = url.split("?")[0].split("/").pop() as string;
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.setAttribute("href", url);
+            a.setAttribute("target", "_blank");
+            a.innerText = decodeURI(filename);
+            li.appendChild(a);
+            list.appendChild(li);
+          });
+        }
+      });
     }
   }
 });

@@ -1,13 +1,15 @@
 function addUrl(tabId: number, url: string): void {
   chrome.storage.session.get(tabId.toString(), (result) => {
     const urls: Array<string> = result[tabId] ?? [];
-    urls.push(url);
-    chrome.storage.session.set({ [tabId]: urls });
-    chrome.runtime.sendMessage({
-      type: "update-urls",
-      tabId,
-      urls: urls,
-    });
+    if (!urls.includes(url)) {
+      urls.push(url);
+      chrome.storage.session.set({ [tabId]: urls });
+      chrome.runtime.sendMessage({
+        type: "update-urls",
+        tabId,
+        urls: urls,
+      });
+    }
   });
 }
 
@@ -29,6 +31,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (
     changeInfo.status === "loading" &&
+    changeInfo.url === undefined &&
     tabId !== undefined &&
     tabId !== chrome.tabs.TAB_ID_NONE
   ) {
@@ -53,10 +56,14 @@ chrome.webRequest.onCompleted.addListener(
   async (details) => {
     const tabId = details.tabId;
     if (tabId !== undefined && tabId !== chrome.tabs.TAB_ID_NONE) {
-      addUrl(tabId, details.url);
+      const resource = details.url.split("?")[0];
+      if (resource.endsWith(".pdf") || resource.endsWith(".PDF")) {
+        addUrl(tabId, details.url);
+      }
     }
   },
   {
     urls: ["<all_urls>"],
+    types: ["xmlhttprequest"],
   }
 );
