@@ -1,11 +1,11 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "PDF Download",
     "version": "0.0.1",
 
     "description": "Browser extension that lets you download embedded PDF files.",
 
-    "action": {
+    "browser_action": {
         "default_title": "Show available PDFs",
         "default_popup": "popup.html"
     },
@@ -17,9 +17,8 @@
 
     "permissions": [
         "webRequest",
-        "tabs"
-    ],
-    "host_permissions": [
-        "*://*/*"
+        "<all_urls>",
+        "tabs",
+        "storage"
     ]
 }
