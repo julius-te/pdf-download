@@ -1,24 +1,46 @@
+// we are using MV3 in Chrome but MV2 in Firefox
+chrome.action ??= chrome.browserAction as any;
+
 function addUrl(tabId: number, url: string): void {
   chrome.storage.session.get(tabId.toString(), (result) => {
     const urls: Array<string> = result[tabId] ?? [];
     if (!urls.includes(url)) {
       urls.push(url);
+
+      // update storage
       chrome.storage.session.set({ [tabId]: urls });
+
+      // update popup
       chrome.runtime.sendMessage({
         type: "update-urls",
         tabId,
         urls: urls,
+      });
+
+      // update badge
+      chrome.action.setBadgeText({
+        text: urls.length.toString(),
+        tabId: tabId,
       });
     }
   });
 }
 
 function clear(tabId: number): void {
+  // update storage
   chrome.storage.session.remove(tabId.toString());
+
+  // update popup
   chrome.runtime.sendMessage({
     type: "update-urls",
     tabId,
     urls: [],
+  });
+
+  // update badge
+  chrome.action.setBadgeText({
+    text: "",
+    tabId: tabId,
   });
 }
 
