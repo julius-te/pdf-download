@@ -56,14 +56,11 @@ chrome.webRequest.onCompleted.addListener(
   async (details) => {
     const tabId = details.tabId;
     if (tabId !== undefined && tabId !== chrome.tabs.TAB_ID_NONE) {
-      const resource = details.url.split("?")[0];
-      if (resource.endsWith(".pdf") || resource.endsWith(".PDF")) {
-        addUrl(tabId, details.url);
-      }
+      addUrl(tabId, details.url);
     }
   },
   {
-    urls: ["<all_urls>"],
+    urls: ["*://*/*.pdf", "*://*/*.PDF", "*://*/*.pdf?*", "*://*/*.PDF?*"],
     types: ["xmlhttprequest"],
   }
 );
