@@ -1,0 +1,23 @@
+{
+  "name": "pdf-download",
+  "version": "0.0.1",
+  "description": "Browser extension that lets you download embedded PDF files.",
+  "scripts": {
+    "build:firefox": "bash build.sh firefox",
+    "build:chrome": "bash build.sh chrome",
+    "build": "bash build.sh firefox && bash build.sh chrome"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julius-te/pdf-download.git"
+  },
+  "bugs": {
+    "url": "https://github.com/julius-te/pdf-download/issues"
+  },
+  "homepage": "https://github.com/julius-te/pdf-download#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "@types/firefox-webext-browser": "^111.0.2",
+    "typescript": "^5.2.2"
+  }
+}
