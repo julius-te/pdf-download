@@ -17,8 +17,12 @@
 
     "permissions": [
         "webRequest",
-        "<all_urls>",
         "tabs",
-        "storage"
+        "storage",
+
+        "*://*/*.pdf",
+        "*://*/*.PDF",
+        "*://*/*.pdf?*",
+        "*://*/*.PDF?*"
     ]
 }
